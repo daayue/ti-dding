@@ -1,0 +1,36 @@
+# 钉钉群管理工具配置文件
+
+# 钉钉应用配置
+dingtalk:
+  # 应用Key (从钉钉开放平台获取)
+  app_key: "your_app_key_here"
+  # 应用Secret (从钉钉开放平台获取)
+  app_secret: "your_app_secret_here"
+  # 访问令牌 (可选，如果使用AppKey/AppSecret则不需要)
+  access_token: ""
+  # 企业ID (可选)
+  corp_id: "your_corp_id_here"
+  # API基础URL
+  base_url: "https://oapi.dingtalk.com"
+
+# 应用配置
+app:
+  # 数据存储路径
+  data_dir: "./data"
+  # 日志级别: debug, info, warn, error
+  log_level: "info"
+  # 是否启用调试模式
+  debug: false
+
+# 群组配置
+group:
+  # 默认群主用户ID
+  default_owner: ""
+  # 创建群组时的默认设置
+  default_settings:
+    # 是否允许群成员邀请其他用户
+    allow_member_invite: true
+    # 是否允许群成员查看群成员列表
+    allow_member_view: true
+    # 是否允许群成员修改群名称
+    allow_member_edit_name: false 
