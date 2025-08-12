@@ -228,9 +228,9 @@ var exportCmd = &cobra.Command{
 		// 初始化服务
 		client := dingtalk.NewClient(cfg)
 		storage := storage.NewFileStorage(cfg.GetDataDir())
-		groupConfig := &models.GroupConfig{
+		groupConfig := &config.GroupConfig{
 			DefaultOwner: cfg.Group.DefaultOwner,
-			DefaultSettings: models.GroupDefaultSettings{
+			DefaultSettings: config.GroupDefaultSettings{
 				AllowMemberInvite:   cfg.Group.DefaultSettings.AllowMemberInvite,
 				AllowMemberView:     cfg.Group.DefaultSettings.AllowMemberView,
 				AllowMemberEditName: cfg.Group.DefaultSettings.AllowMemberEditName,
@@ -262,9 +262,9 @@ var checkCmd = &cobra.Command{
 		// 初始化服务
 		client := dingtalk.NewClient(cfg)
 		storage := storage.NewFileStorage(cfg.GetDataDir())
-		groupConfig := &models.GroupConfig{
+		groupConfig := &config.GroupConfig{
 			DefaultOwner: cfg.Group.DefaultOwner,
-			DefaultSettings: models.GroupDefaultSettings{
+			DefaultSettings: config.GroupDefaultSettings{
 				AllowMemberInvite:   cfg.Group.DefaultSettings.AllowMemberInvite,
 				AllowMemberView:     cfg.Group.DefaultSettings.AllowMemberView,
 				AllowMemberEditName: cfg.Group.DefaultSettings.AllowMemberEditName,
