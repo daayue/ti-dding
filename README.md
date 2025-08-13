@@ -9,6 +9,7 @@
 - **群名重复检测**: 智能检测群名是否已存在，避免重复创建
 - **成员管理**: 支持批量添加/移除群成员
 - **数据持久化**: 本地文件存储，无需外部数据库依赖
+- **员工信息查询**: 获取企业员工列表，支持CSV导出
 
 ### 📊 数据管理
 - CSV文件导入群组信息
@@ -19,7 +20,7 @@
 ## 技术架构
 
 ### 开发语言
-- **Golang 1.21+**
+- **Golang 1.20+** (推荐 1.20.1)
 
 ### 项目结构
 ```
@@ -35,6 +36,7 @@ ti-dding/
 ├── configs/               # 配置文件
 ├── data/                  # 数据文件
 ├── scripts/               # 脚本文件
+├── tools/                 # 工具文件
 └── docs/                  # 文档
 ```
 
@@ -49,7 +51,7 @@ ti-dding/
 ## 快速开始
 
 ### 环境要求
-- Go 1.21 或更高版本
+- Go 1.20 或更高版本 (推荐 1.20.1)
 - 钉钉开发者账号和AppKey/AppSecret
 
 ### 安装
@@ -95,6 +97,15 @@ dingtalk:
 
 # 移除成员
 ./ti-dding remove-member --user-id "user123" --group-id "group123"
+```
+
+#### 员工信息查询
+```bash
+# 获取企业员工信息
+./scripts/get_employees.sh
+
+# 或直接使用工具
+./tools/employee_query -config configs/config.yaml -output employees.csv
 ```
 
 ## CSV文件格式

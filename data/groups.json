@@ -1,0 +1,19 @@
+{
+  "groups": [
+    {
+      "id": "chat7bf5db944cb005ef3edfdd7e63c67965",
+      "name": "自动创建群1",
+      "description": "这是一个测试群组",
+      "owner_id": "manager2063",
+      "member_count": 1,
+      "created_at": "2025-08-13T18:51:54.408462+08:00",
+      "updated_at": "2025-08-13T18:51:54.408462+08:00",
+      "status": "active",
+      "members": [
+        "manager2063"
+      ]
+    }
+  ],
+  "total": 1,
+  "updated_at": "2025-08-13T18:51:54.408496+08:00"
+}
