@@ -92,12 +92,23 @@ func (c *Client) CreateGroup(req *models.GroupCreateRequest) (*models.GroupCreat
 		"useridlist":  req.MemberIDs,
 	}
 
-	// 添加群组设置
-	if c.config.Group.DefaultSettings.AllowMemberInvite {
-		apiReq["show_history_type"] = 1
-	}
-	if c.config.Group.DefaultSettings.AllowMemberView {
-		apiReq["validation_type"] = 1
+	// 设置群组类型（内部群/外部群）
+	if req.IsExternal || req.GroupType == "external" {
+		// 外部群设置
+		apiReq["conversation_type"] = 2 // 2表示外部群
+		apiReq["show_history_type"] = 1 // 允许查看历史消息
+		apiReq["validation_type"] = 1   // 允许邀请成员
+	} else {
+		// 内部群设置
+		apiReq["conversation_type"] = 1 // 1表示内部群
+
+		// 添加群组设置
+		if c.config.Group.DefaultSettings.AllowMemberInvite {
+			apiReq["show_history_type"] = 1
+		}
+		if c.config.Group.DefaultSettings.AllowMemberView {
+			apiReq["validation_type"] = 1
+		}
 	}
 
 	jsonData, err := json.Marshal(apiReq)

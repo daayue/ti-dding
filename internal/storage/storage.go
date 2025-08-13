@@ -231,11 +231,18 @@ func (fs *FileStorage) LoadGroupsFromCSV(csvFile string) ([]models.CSVGroupData,
 			return nil, fmt.Errorf("第%d行数据不完整，需要至少4个字段", i+2)
 		}
 
+		// 处理群组类型字段（可选）
+		groupType := ""
+		if len(record) > 4 {
+			groupType = strings.TrimSpace(record[4])
+		}
+
 		group := models.CSVGroupData{
 			Name:        strings.TrimSpace(record[0]),
 			Description: strings.TrimSpace(record[1]),
 			OwnerID:     strings.TrimSpace(record[2]),
 			MemberIDs:   strings.TrimSpace(record[3]),
+			GroupType:   groupType,
 		}
 
 		// 验证必填字段
@@ -278,19 +285,26 @@ func (fs *FileStorage) ExportGroupsToCSV(outputFile string) error {
 	defer writer.Flush()
 
 	// 写入标题行
-	headers := []string{"群组ID", "群名称", "群描述", "群主用户ID", "成员数量", "创建时间", "状态"}
+	headers := []string{"群组ID", "群名称", "群描述", "群主用户ID", "成员数量", "群组类型", "创建时间", "状态"}
 	if err := writer.Write(headers); err != nil {
 		return fmt.Errorf("写入CSV标题失败: %w", err)
 	}
 
 	// 写入数据行
 	for _, group := range activeGroups {
+		// 确定群组类型显示文本
+		groupTypeText := "内部群"
+		if group.IsExternal {
+			groupTypeText = "外部群"
+		}
+
 		record := []string{
 			group.ID,
 			group.Name,
 			group.Description,
 			group.OwnerID,
 			fmt.Sprintf("%d", group.MemberCount),
+			groupTypeText,
 			group.CreatedAt.Format("2006-01-02 15:04:05"),
 			group.Status,
 		}

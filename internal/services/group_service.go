@@ -75,12 +75,31 @@ func (s *GroupService) CreateGroupsFromCSV(csvFile string) (*models.GroupCreateR
 			memberIDs = append(memberIDs, csvGroup.OwnerID)
 		}
 
+		// 确定群组类型
+		groupType := "internal"
+		isExternal := false
+		if csvGroup.GroupType != "" {
+			switch strings.ToLower(strings.TrimSpace(csvGroup.GroupType)) {
+			case "external", "外部群", "外部":
+				groupType = "external"
+				isExternal = true
+			case "internal", "内部群", "内部":
+				groupType = "internal"
+				isExternal = false
+			default:
+				groupType = "internal"
+				isExternal = false
+			}
+		}
+
 		// 创建群组请求
 		req := &models.GroupCreateRequest{
 			Name:        csvGroup.Name,
 			Description: csvGroup.Description,
 			OwnerID:     csvGroup.OwnerID,
 			MemberIDs:   memberIDs,
+			GroupType:   groupType,
+			IsExternal:  isExternal,
 		}
 
 		// 调用钉钉API创建群组

@@ -15,6 +15,8 @@ type Group struct {
 	UpdatedAt   time.Time `json:"updated_at"`   // 更新时间
 	Status      string    `json:"status"`       // 群组状态: active, inactive, deleted
 	Members     []string  `json:"members"`      // 成员用户ID列表
+	GroupType   string    `json:"group_type"`   // 群组类型: internal(内部群), external(外部群)
+	IsExternal  bool      `json:"is_external"`  // 是否为外部群
 }
 
 // GroupCreateRequest 创建群组请求
@@ -23,6 +25,8 @@ type GroupCreateRequest struct {
 	Description string   `json:"description"` // 群组描述
 	OwnerID     string   `json:"owner_id"`    // 群主用户ID
 	MemberIDs   []string `json:"member_ids"`  // 初始成员用户ID列表
+	GroupType   string   `json:"group_type"`  // 群组类型: internal(内部群), external(外部群)
+	IsExternal  bool     `json:"is_external"` // 是否为外部群
 }
 
 // GroupCreateResponse 创建群组响应
@@ -58,10 +62,16 @@ type CSVGroupData struct {
 	Description string `csv:"群描述"`
 	OwnerID     string `csv:"群主用户ID"`
 	MemberIDs   string `csv:"群成员用户ID列表"`
+	GroupType   string `csv:"群组类型"` // 内部群/外部群
 }
 
 // NewGroup 创建新的群组实例
 func NewGroup(name, description, ownerID string) *Group {
+	return NewGroupWithType(name, description, ownerID, "internal", false)
+}
+
+// NewGroupWithType 创建指定类型的群组实例
+func NewGroupWithType(name, description, ownerID, groupType string, isExternal bool) *Group {
 	now := time.Now()
 	return &Group{
 		Name:        name,
@@ -72,6 +82,8 @@ func NewGroup(name, description, ownerID string) *Group {
 		UpdatedAt:   now,
 		Status:      "active",
 		Members:     []string{ownerID},
+		GroupType:   groupType,
+		IsExternal:  isExternal,
 	}
 }
 
